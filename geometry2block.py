@@ -39,8 +39,10 @@ def Brep2Block():
             block= rs.AddBlock([obj], basepoint, name, False)
             rs.InsertBlock(name, basepoint)
             i= i+1
-    
-    rs.MessageBox("IN TOTAL %dBLOCKS" % i)
+        rs.MessageBox("IN TOTAL %dBLOCKS" % i)
+    else:
+        rs.MessageBox("Select nothing!")
+        return
     
 if( __name__ == "__main__" ):
   #call function defined above
