@@ -23,7 +23,7 @@ def Brep2Block():
     rs.AddLayer(layName,System.Drawing.Color.Gold)
     
     #选取几何体 
-    go = rs.GetObjects("seltect breps",custom_filter= cp_filt)
+    go = rs.GetObjects("Gelect Geometry",custom_filter= cp_filt)
     ObjRefs = go
     
     #生成图块
@@ -41,7 +41,7 @@ def Brep2Block():
             i= i+1
         rs.MessageBox("IN TOTAL %dBLOCKS" % i)
     else:
-        rs.MessageBox("Select nothing!")
+        rs.MessageBox("Nothing Selected!")
         return
     
 if( __name__ == "__main__" ):
