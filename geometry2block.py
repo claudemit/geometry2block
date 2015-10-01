@@ -4,7 +4,7 @@ convert geometry in rhino to block for sketchup
 written by claudemit
 2015-09-26
 """
-
+from time import clock
 import rhinoscriptsyntax as rs
 import System
 
@@ -18,14 +18,16 @@ def Geo2Block():
         rs.MessageBox("This LayerName already exist!")
         return
     rs.AddLayer(layName,System.Drawing.Color.Gold)
+    preLayer= rs.CurrentLayer(layName)
     
     #选取几何体 
     go = rs.GetObjects("Select Geometry",custom_filter= cp_filt)
     ObjRefs = go
     
     #生成图块
-    if(ObjRefs):
-        basepoint = rs.AddPoint(0,0,0)
+    start= clock()
+    basepoint = rs.AddPoint(0,0,0)
+    if(ObjRefs):        
         i= 0
         for obj in ObjRefs:
             name = 'block_%s' %i
@@ -35,11 +37,13 @@ def Geo2Block():
             block= rs.AddBlock([obj], basepoint, name, False)            
             rs.ObjectLayer(rs.InsertBlock(block, basepoint), layName)
             i= i+1
-        rs.MessageBox("IN TOTAL %d BLOCKS" % i)
+#        rs.MessageBox("IN TOTAL %d BLOCKS" % i)
     else:
+        rs.CurrentLayer(preLayer)
         rs.DeleteLayer(layName)
         rs.MessageBox("No Geometry Selected!")
         return
+    print clock()-start
     
 if( __name__ == "__main__" ):
   #call function defined above
