@@ -36,7 +36,7 @@ def Geo2Block():
                 rs.MessageBox("Block Definition"+ name+"Already Exists")
                 name= name+'_1'    
             block= rs.AddBlock([obj], basepoint, name, False)            
-            rs.ObjectLayer(rs.InsertBlock(block, basepoint), layName)
+            rs.InsertBlock(block, basepoint)
             i= i+1
         print clock()-start
         rs.MessageBox("IN TOTAL %d BLOCKS" % i)        
