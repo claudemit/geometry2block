@@ -1,6 +1,6 @@
 #coding=utf-8
 """
-convert geometry in rhino to blocks for sketchup
+convert geometry in rhino to block for sketchup
 written by claudemit
 2015-09-26
 """
@@ -9,21 +9,18 @@ import rhinoscriptsyntax as rs
 import System
 
 def cp_filt(rhino_object, geometry, component_index):
-    return rs.IsBrep(geometry) or rs.IsMesh(geometry)
+    return rs.IsBrep(geometry) | rs.IsMesh(geometry)
 
 def Brep2Block():
     #属性--设置图层
-    layName= rs.GetString("make a new layer for blocks")
-    if layName=="":
-        rs.MessageBox("no layer!")
-        return
+    layName= rs.GetString("Add a New Layer to put Blocks")
     if layName in rs.LayerNames():
-        rs.MessageBox("not a new layer!")
+        rs.MessageBox("This LayerName already exist!")
         return
     rs.AddLayer(layName,System.Drawing.Color.Gold)
     
     #选取几何体 
-    go = rs.GetObjects("Gelect Geometry",custom_filter= cp_filt)
+    go = rs.GetObjects("Select Geometry",custom_filter= cp_filt)
     ObjRefs = go
     
     #生成图块
@@ -33,15 +30,15 @@ def Brep2Block():
         for obj in ObjRefs:
             name = 'block_%s' %i
             if rs.IsBlock(name):
-                rs.MessageBox("Block definition"+ name+"already exists")
+                rs.MessageBox("Block Definition"+ name+"Already Exists")
                 name= name+'_1'    
-            print name
-            block= rs.AddBlock([obj], basepoint, name, False)
-            rs.InsertBlock(name, basepoint)
+            block= rs.AddBlock([obj], basepoint, name, False)            
+            rs.ObjectLayer(rs.InsertBlock(block, basepoint), layName)
             i= i+1
-        rs.MessageBox("IN TOTAL %dBLOCKS" % i)
+        rs.MessageBox("IN TOTAL %d BLOCKS" % i)
     else:
-        rs.MessageBox("Nothing Selected!")
+        rs.DeleteLayer(layName)
+        rs.MessageBox("No Geometry Selected!")
         return
     
 if( __name__ == "__main__" ):
