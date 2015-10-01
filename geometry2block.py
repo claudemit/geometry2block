@@ -11,7 +11,7 @@ import System
 def cp_filt(rhino_object, geometry, component_index):
     return rs.IsBrep(geometry) | rs.IsMesh(geometry)
 
-def Brep2Block():
+def Geo2Block():
     #属性--设置图层
     layName= rs.GetString("Add a New Layer to put Blocks")
     if layName in rs.LayerNames():
@@ -43,4 +43,4 @@ def Brep2Block():
     
 if( __name__ == "__main__" ):
   #call function defined above
-  Brep2Block();
+  Geo2Block();
